@@ -409,6 +409,9 @@ body.light .theme-toggle {
 .sdfgs {
     font-weight: bold;
     white-space: nowrap;
+    display: inline-block;
+    min-height: 20px;
+    visibility: visible;
 }
 </style>
 </head>
@@ -436,8 +439,12 @@ body.light .theme-toggle {
     <div class="header">
         <img src="https://pritfort340.github.io/Fort/muy/fort.png" alt="Аватар каналу" class="server-icon">
         <div class="server-name">
-    <span class="sdfg">☤</span> <span class="sdfgs"></span> <span class="sdfg">☤</span>
+    <div class="server-name">
+    <span class="sdfg">☤</span>
+    <span class="sdfgs"></span>
+    <span class="sdfg">☤</span>
     <h3>Після натискання ви увійдете в голосовий чат!</h3>
+    </div>
 </div>
         <div id="onlineCount" style="opacity:1; transition: opacity 0.3s;">
             Онлайн: ...
@@ -475,7 +482,7 @@ async function loadMembers() {
         if (!res.ok) throw new Error("віджет недоступний");
 
         const data = await res.json();
-        document.getElementById("joinBtn").href = "https://discord.gg/5CQZr5AtJC";
+        document.getElementById("joinBtn").href = "https://discord.gg/7pBYyaCx69";
 
         membersCache = data.members || [];
         renderMembers(membersCache);
@@ -575,22 +582,28 @@ document.addEventListener("DOMContentLoaded", () => {
     let index = 0;
     let forward = true;
 
+    el.textContent = ""; // очистка, чтобы не мигало
+
     function animate() {
         if (forward) {
-            el.textContent = text.slice(0, index++);
+            el.textContent = text.slice(0, index);
+            index++;
             if (index > text.length) {
                 forward = false;
                 setTimeout(animate, 1000);
                 return;
             }
         } else {
-            el.textContent = text.slice(0, index--);
+            el.textContent = text.slice(0, index);
+            index--;
             if (index < 0) {
                 forward = true;
+                index = 0;
                 setTimeout(animate, 500);
                 return;
             }
         }
+
         setTimeout(animate, forward ? 150 : 100);
     }
 
@@ -602,5 +615,4 @@ document.addEventListener("DOMContentLoaded", () => {
     <source src="muy/fons.mp3" type="audio/mpeg">
 </audio>
 </body>
-
 </html>
